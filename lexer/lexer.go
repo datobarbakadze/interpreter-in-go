@@ -1,7 +1,6 @@
 package lexer
 
 import (
-	"fmt"
 	"interpreter/token"
 )
 
@@ -24,13 +23,36 @@ func (lexer *Lexer) readChar() {
 	lexer.readPosition++
 }
 
+func (lexer *Lexer) peekChar() byte {
+	if lexer.readPosition >= len(lexer.input) {
+		return 0
+	} else {
+		return lexer.input[lexer.readPosition]
+	}
+}
+
 // NextToken detects and returns new token
 func (lexer *Lexer) NextToken() token.Token {
 	var tok token.Token
 	lexer.skipWhitespace()
 	switch lexer.chr {
 	case '=':
-		tok = newToken(token.ASSIGN, lexer.chr)
+		if lexer.peekChar() == '=' {
+			ch := lexer.chr
+			lexer.readChar()
+			tok = token.Token{Type: token.EQ, Literal: string(ch) + string(lexer.chr)}
+		} else {
+			tok = newToken(token.ASSIGN, lexer.chr)
+		}
+	case '!':
+
+		if lexer.peekChar() == '=' {
+			ch := lexer.chr
+			lexer.readChar()
+			tok = token.Token{Type: token.NOT_EQ, Literal: string(ch) + string(lexer.chr)}
+		} else {
+			tok = newToken(token.BANG, lexer.chr)
+		}
 	case ';':
 		tok = newToken(token.SEMICOLON, lexer.chr)
 	case '(':
@@ -45,6 +67,17 @@ func (lexer *Lexer) NextToken() token.Token {
 		tok = newToken(token.LBRACE, lexer.chr)
 	case '}':
 		tok = newToken(token.RBRACE, lexer.chr)
+	case '-':
+		tok = newToken(token.MINUS, lexer.chr)
+
+	case '/':
+		tok = newToken(token.SLASH, lexer.chr)
+	case '*':
+		tok = newToken(token.ASTERISK, lexer.chr)
+	case '<':
+		tok = newToken(token.LT, lexer.chr)
+	case '>':
+		tok = newToken(token.GT, lexer.chr)
 	case 0:
 		tok.Literal = ""
 		tok.Type = token.EOF
@@ -59,7 +92,7 @@ func (lexer *Lexer) NextToken() token.Token {
 			tok.Literal = lexer.readNumber()
 			return tok
 		} else {
-			fmt.Println("Asfas")
+
 			tok = newToken(token.ILLEGAL, lexer.chr)
 		}
 	}
@@ -75,14 +108,14 @@ func (lexer *Lexer) readIdentifier() string {
 }
 
 func (lexer *Lexer) skipWhitespace() {
-	for lexer.chr == ' ' || lexer.chr == '\t' || lexer.chr == '\r' {
+	for lexer.chr == ' ' || lexer.chr == '\t' || lexer.chr == '\r' || lexer.chr == '\n' {
 		lexer.readChar()
 	}
 }
 
 func (lexer *Lexer) readNumber() string {
 	position := lexer.position
-	for isDigit(lexer.input[position]) {
+	for isDigit(lexer.chr) {
 		lexer.readChar()
 	}
 	return lexer.input[position:lexer.position]
