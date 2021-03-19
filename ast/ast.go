@@ -1,9 +1,13 @@
 package ast
 
-import "interpreter/token"
+import (
+	"bytes"
+	"interpreter/token"
+)
 
 type Node interface {
 	TokenLiteral() string
+	String() string // for print-debugging and comparing
 }
 
 // Statement represents statements in AST
@@ -20,8 +24,8 @@ type Expression interface {
 	expressionNode()
 }
 
-// Identifier stores value and the name of the identifiers
-// like variables.
+// Identifier stores value and the name of
+// the identifiers like variables.
 type Identifier struct {
 	Token token.Token
 	Value string
@@ -30,6 +34,9 @@ type Identifier struct {
 func (i *Identifier) expressionNode() {}
 func (i *Identifier) TokenLiteral() string {
 	return i.Token.Literal
+}
+func (i *Identifier) String() string {
+	return i.Value
 }
 
 // LetStatement stores and expresses `let` statement
@@ -43,6 +50,62 @@ func (ls *LetStatement) statementNode() {}
 func (ls *LetStatement) TokenLiteral() string {
 	return ls.Token.Literal
 }
+func (ls *LetStatement) String() string {
+	var out bytes.Buffer
+
+	out.WriteString(ls.TokenLiteral() + " ")
+	out.WriteString(ls.Name.String())
+	out.WriteString(" = ")
+
+	if ls.Value != nil {
+		out.WriteString(ls.Value.String())
+	}
+
+	out.WriteString(";")
+	return out.String()
+}
+
+// ReturnStatement stores and expresses 'return'
+// statement of pl
+type ReturnStatement struct {
+	Token       token.Token // return token
+	ReturnValue Expression
+}
+
+func (rs *ReturnStatement) statementNode() {}
+func (rs *ReturnStatement) TokenLiteral() string {
+	return rs.Token.Literal
+}
+func (rs *ReturnStatement) String() string {
+	var out bytes.Buffer
+
+	out.WriteString(rs.TokenLiteral() + " ")
+
+	if rs.ReturnValue != nil {
+		out.WriteString(rs.ReturnValue.String())
+	}
+
+	out.WriteString(";")
+	return out.String()
+}
+
+// ExpressionStatement consist only of one expression
+// e.g: 'x + 5'
+type ExpressionStatement struct {
+	Token      token.Token
+	Expression Expression
+}
+
+func (es *ExpressionStatement) statementNode() {}
+func (es *ExpressionStatement) TokenLiteral() string {
+	return es.Token.Literal
+}
+func (es *ExpressionStatement) String() string {
+	if es.Expression != nil {
+		return es.Expression.String()
+	}
+	return ""
+}
 
 // Program is a root node in AST
 type Program struct {
@@ -54,4 +117,12 @@ func (p *Program) TokenLiteral() string {
 		return p.Statements[0].TokenLiteral()
 	}
 	return ""
+}
+
+func (p *Program) String() string {
+	var out bytes.Buffer
+	for _, s := range p.Statements {
+		out.WriteString(s.String())
+	}
+	return out.String()
 }
