@@ -1,0 +1,39 @@
+Date : 2021-03-18 16:18:12
+Directory : /home/user/Desktop/all_golang/interpreter
+Total : 9 files,  414 codes, 123 comments, 86 blanks, all 623 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Go       |          8 |        412 |        123 |         84 |        619 |
+| XML      |          1 |          2 |          0 |          2 |          4 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                            | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                               |          9 |        414 |        123 |         86 |        623 |
+| ast                                                             |          1 |         39 |          8 |         11 |         58 |
+| lexer                                                           |          2 |        136 |        109 |         20 |        265 |
+| parser                                                          |          2 |        146 |          0 |         33 |        179 |
+| repl                                                            |          1 |         24 |          0 |          7 |         31 |
+| token                                                           |          1 |         50 |          6 |          9 |         65 |
++-----------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                        | language | code       | comment    | blank      | total      |
++-----------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /home/user/Desktop/all_golang/interpreter/ast/ast.go            | Go       |         39 |          8 |         11 |         58 |
+| /home/user/Desktop/all_golang/interpreter/go.mod                | XML      |          2 |          0 |          2 |          4 |
+| /home/user/Desktop/all_golang/interpreter/lexer/lexer.go        | Go       |        122 |          4 |         16 |        142 |
+| /home/user/Desktop/all_golang/interpreter/lexer/lexer_test.go   | Go       |         14 |        105 |          4 |        123 |
+| /home/user/Desktop/all_golang/interpreter/main.go               | Go       |         17 |          0 |          4 |         21 |
+| /home/user/Desktop/all_golang/interpreter/parser/parser.go      | Go       |         79 |          0 |         20 |         99 |
+| /home/user/Desktop/all_golang/interpreter/parser/parser_test.go | Go       |         67 |          0 |         13 |         80 |
+| /home/user/Desktop/all_golang/interpreter/repl/repl.go          | Go       |         24 |          0 |          7 |         31 |
+| /home/user/Desktop/all_golang/interpreter/token/token.go        | Go       |         50 |          6 |          9 |         65 |
+| Total                                                           |          |        414 |        123 |         86 |        623 |
++-----------------------------------------------------------------+----------+------------+------------+------------+------------+
